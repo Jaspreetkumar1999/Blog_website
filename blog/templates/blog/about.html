@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+{% block content %}
+  <div class="container">
+    <h3> Your feedbacks are Most welcome </h3>
+  <form action="" method="POST">
+    {% csrf_token %}
+    <textarea name="text" id="" cols="120" rows="10" style="border: 1px solid black;" placeholder="Enter your feedback here"></textarea>
+    <button type="button" class="btn btn-primary">Primary</button>
+  </form>
+</div>
+<!-- <p>{{ content }}</p> -->
+{% endblock content %}

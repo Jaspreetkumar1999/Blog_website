@@ -1,0 +1,44 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You can buy attention (advertising). You can beg for attention from the media (PR). You can bug people one at a time to get attention (sales). Or you can earn attention by creating something interesting and valuable and then publishing it online for free.
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+{% for post in posts %}
+<article class="media content-section">
+  <img src="{{post.author.profile.image.url}}" class="rounded-circle article-img">
+  <div class="media-body">
+    <div class="article-metadata">
+      <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+      <small class="text-muted">{{ post.date_posted }}</small>
+    </div>
+    <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+    <p class="article-content">{{ post.content }}</p>
+  </div>
+</article>
+{% endfor %}
+{% if is_paginated %}
+
+{% if page_obj.has_previous %}
+<a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+<a class="btn btn-outline-info mb-4" href="?page={{page_obj.previous_page_number }}">Previous</a>
+{% endif%}
+
+{% for num in page_obj.paginator.page_range %}
+{% if previous_page_number == num %}
+<a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% elif num > page_obj.number|add:'-3' and  num < page_obj.number|add:'3' %}
+<a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+{% endif %}
+{% endfor %}
+
+{% if page_obj.has_next %}
+<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">next</a>
+<a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">last</a>
+{% endif%}
+
+{% endif %}
+{% endblock content %}
